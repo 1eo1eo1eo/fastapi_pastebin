@@ -1,0 +1,15 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres:15
+    env_file:
+      - backend/.env
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
