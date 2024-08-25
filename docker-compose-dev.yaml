@@ -2,8 +2,10 @@ services:
   db:
     container_name: postgres
     image: postgres:15
-    env_file:
-      - backend/.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=school
     restart: always
     ports:
       - "5432:5432"
