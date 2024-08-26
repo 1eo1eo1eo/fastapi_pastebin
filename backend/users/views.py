@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import Annotated, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud import users as users_crud
+from users import crud as users_crud
 from users.schemas import CreateUser, ReadUser
 
 from core.models import db_helper
