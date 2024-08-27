@@ -11,7 +11,12 @@ services:
       - "5432:5432"
     networks:
       - app-network
+    volumes:
+      - app:/data/postgres
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  app:
