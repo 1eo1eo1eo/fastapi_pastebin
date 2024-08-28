@@ -3,11 +3,11 @@ from pydantic import BaseModel
 from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).parent.parent
 
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
+
 
 class DataBaseConfig(BaseModel):
     url: PostgresDsn
@@ -15,10 +15,6 @@ class DataBaseConfig(BaseModel):
     pool_size: int = 50
     max_overflow: int = 10
 
-class AuthJWT(BaseModel):
-    private_key_path: Path = BASE_DIR / "certs" / "jwt-private.pem"
-    public_key_path: Path = BASE_DIR / "certs" / "jwt-public.pem"
-    algorithm: str = "RS256"
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -29,6 +25,6 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     db: DataBaseConfig
-    auth_jwt: AuthJWT = AuthJWT()
+
 
 settings = Settings() #type: ignore
