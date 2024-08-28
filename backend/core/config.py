@@ -16,6 +16,10 @@ class DataBaseConfig(BaseModel):
     max_overflow: int = 10
 
 
+class AccessToken(BaseModel):
+    lifetime_seconds: int = 3600
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -25,6 +29,7 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     db: DataBaseConfig
+    access_token: AccessToken = AccessToken()
 
 
 settings = Settings() #type: ignore
