@@ -20,9 +20,9 @@ main_app = FastAPI(
     title="Pastebin",
 )
 
-main_app.include_router(
-    users_router,
-)
+# main_app.include_router(
+#     users_router,
+# )
 
 
 if __name__ == "__main__":
