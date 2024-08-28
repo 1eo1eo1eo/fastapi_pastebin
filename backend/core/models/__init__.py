@@ -5,5 +5,5 @@ __all__ = (
 )
 
 from .base import Base
+from auth.models import User
 from .db_helper import db_helper
-from users.models import User
