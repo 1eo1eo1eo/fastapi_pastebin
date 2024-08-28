@@ -11,6 +11,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     username: Annotated[str, MinLen(3), MaxLen(20)]
+    password: str
 
 
 class UserRead(UserBase):
