@@ -8,5 +8,7 @@ from sqlalchemy.orm import Mapped
 
 class User(Base):
     username: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
     registered_at: Mapped[TIMESTAMP] = mapped_column(type_=TIMESTAMP, default=datetime.now)
+    is_active: Mapped[bool] = mapped_column(nullable= False)

@@ -1,16 +1,20 @@
 from typing import Annotated
 from annotated_types import MinLen, MaxLen
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 from datetime import datetime
 
 
 class UserBase(BaseModel):
     username: str
-    email: str
+    email: EmailStr
+    is_active: bool = True
 
 
 class UserCreate(UserBase):
+    model_config = ConfigDict(strict=True)
+
     username: Annotated[str, MinLen(3), MaxLen(20)]
+    password: str
 
 
 class UserRead(UserBase):
