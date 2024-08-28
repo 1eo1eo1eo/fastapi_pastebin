@@ -15,6 +15,7 @@ uvicorn = "^0.30.6"
 alembic = "^1.13.2"
 asyncpg = "^0.29.0"
 gunicorn = "^23.0.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
 
 
 [tool.poetry.group.dev.dependencies]
