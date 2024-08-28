@@ -25,7 +25,7 @@ class User(Base, SQLAlchemyBaseUserTable[int]):
     
 
 class AccessToken(Base, SQLAlchemyBaseAccessTokenTable[int]):
-    user_id: Mapped = mapped_column(
+    user_id: Mapped[int] = mapped_column(
         Integer,
         ForeignKey("users.id", ondelete="cascade"),
         nullable=False
