@@ -6,6 +6,7 @@ from core.config import settings
 from core.models import db_helper
 
 from users.views import router as users_router
+from auth.views import router as jwt_auth_router
 
 
 @asynccontextmanager
@@ -22,6 +23,10 @@ main_app = FastAPI(
 
 main_app.include_router(
     users_router,
+)
+
+main_app.include_router(
+    jwt_auth_router,
 )
 
 
