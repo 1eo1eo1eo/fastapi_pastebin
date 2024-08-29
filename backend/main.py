@@ -1,16 +1,18 @@
-from fastapi import FastAPI
 import uvicorn
+from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from core.config import settings
 from core.models import db_helper
 
 from auth.views import router as authentication_router
+from auth.actions.create_superuser import create_superuser
 
 
 @asynccontextmanager
 async def lifespan(main_app: FastAPI):
     # startup
+    await create_superuser()
     yield
     # shutdown
     await db_helper.dispose()
