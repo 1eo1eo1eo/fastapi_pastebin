@@ -4,7 +4,7 @@ from fastapi_users import BaseUserManager, IntegerIDMixin
 
 import logging
 
-from core.models import User
+from auth.dependencies.models import User
 from core.config import settings
 
 if TYPE_CHECKING:
