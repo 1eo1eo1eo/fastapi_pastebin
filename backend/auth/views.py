@@ -30,7 +30,7 @@ router.include_router(
     )
 )
 
-# get information about user
+
 # /me
 # /{id}
 router.include_router(
@@ -38,4 +38,11 @@ router.include_router(
         UserRead,
         UserUpdate,
     )
+)
+
+
+# /request-verify-token
+# /verify
+router.include_router(
+    router=fastapi_users.get_verify_router(UserRead),
 )
