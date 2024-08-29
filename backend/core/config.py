@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     db: DataBaseConfig
-    access_token: AccessToken = AccessToken()
+    access_token: AccessToken = AccessToken()  # type: ignore
 
 
-settings = Settings() #type: ignore
+settings = Settings()  # type: ignore
