@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from dependencies.router_helper import fastapi_users
-from dependencies.backend import authentication_backend
+from .dependencies.router_helper import fastapi_users
+from .dependencies.backend import authentication_backend
 
 
 router = APIRouter(
@@ -10,5 +10,5 @@ router = APIRouter(
 )
 
 router.include_router(
-    fastapi_users.get_auth_router(authentication_backend),
+    router=fastapi_users.get_auth_router(authentication_backend),
 )
