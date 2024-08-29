@@ -6,5 +6,5 @@ __all__ = (
 )
 
 from .base import Base
-from auth.models import User, AccessToken
+from auth.dependencies.models import User, AccessToken
 from .db_helper import db_helper
