@@ -22,6 +22,14 @@ class AccessToken(BaseModel):
     verification_token_secret: str
 
 
+class SuperUser(BaseModel):
+    email: str
+    password: str
+    is_active: bool
+    is_superuser: bool
+    is_verified: bool
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.tempalte.", ".env"),
@@ -32,6 +40,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     db: DataBaseConfig
     access_token: AccessToken
+    superuser: SuperUser
 
 
 settings = Settings()  # type: ignore
