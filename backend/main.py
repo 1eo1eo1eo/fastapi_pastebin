@@ -5,24 +5,19 @@ from contextlib import asynccontextmanager
 from core.config import settings
 from core.models import db_helper
 
-from users.views import router as users_router
-
 
 @asynccontextmanager
 async def lifespan(main_app: FastAPI):
-    #startup
+    # startup
     yield
-    #shutdown
+    # shutdown
     await db_helper.dispose()
+
 
 main_app = FastAPI(
     lifespan=lifespan,
     title="Pastebin",
 )
-
-# main_app.include_router(
-#     users_router,
-# )
 
 
 if __name__ == "__main__":
