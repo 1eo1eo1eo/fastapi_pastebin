@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 from core.config import settings
 from core.models import db_helper
 
+from auth.views import router as authentication_router
+
 
 @asynccontextmanager
 async def lifespan(main_app: FastAPI):
@@ -19,6 +21,7 @@ main_app = FastAPI(
     title="Pastebin",
 )
 
+main_app.include_router(authentication_router)
 
 if __name__ == "__main__":
     uvicorn.run(
