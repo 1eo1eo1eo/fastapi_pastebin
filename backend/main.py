@@ -8,6 +8,8 @@ from core.models import db_helper
 from auth.views import router as authentication_router
 from auth.actions.create_superuser import create_superuser
 
+from api import router as messages_router
+
 
 @asynccontextmanager
 async def lifespan(main_app: FastAPI):
@@ -24,6 +26,8 @@ main_app = FastAPI(
 )
 
 main_app.include_router(authentication_router)
+main_app.include_router(messages_router)
+
 
 if __name__ == "__main__":
     uvicorn.run(
