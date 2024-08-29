@@ -18,11 +18,13 @@ class DataBaseConfig(BaseModel):
 
 class AccessToken(BaseModel):
     lifetime_seconds: int = 3600
+    reset_password_token_secret: str
+    verification_token_secret: str
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env.tempalte.", ".env"),
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="FASTAPI__",
