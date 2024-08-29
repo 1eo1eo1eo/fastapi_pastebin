@@ -10,7 +10,7 @@ from core.models import (
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
 
-async def get_user_db(
+async def get_users_db(
     session: Annotated[
         "AsyncSession",
         Depends(db_helper.session_getter),
