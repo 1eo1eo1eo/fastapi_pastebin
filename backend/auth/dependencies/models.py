@@ -7,8 +7,9 @@ from fastapi_users_db_sqlalchemy.access_token import (
     SQLAlchemyBaseAccessTokenTable,
     SQLAlchemyAccessTokenDatabase,
 )
-from sqlalchemy import ForeignKey, Integer
+from sqlalchemy import ForeignKey, Integer, TIMESTAMP
 from sqlalchemy.orm import Mapped, mapped_column
+from datetime import datetime, timezone
 
 from core.models import Base
 from core.models.mixins.id_int_pk import IdIntPkMixin
@@ -19,6 +20,10 @@ if TYPE_CHECKING:
 
 
 class User(Base, IdIntPkMixin, SQLAlchemyBaseUserTable[int]):
+    registered_at: Mapped[TIMESTAMP] = mapped_column(
+        type_=TIMESTAMP,
+        default=datetime.now(timezone.utc),
+    )
 
     @classmethod
     def get_db(cls, session: "AsyncSession"):
