@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .api_v1.messages import router as messages_router
+from .api_v1.views import router as messages_router
 
 
 router = APIRouter(
