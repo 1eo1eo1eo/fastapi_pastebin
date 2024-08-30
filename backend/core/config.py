@@ -1,4 +1,4 @@
-from pathlib import Path
+from datetime import datetime, timezone
 from pydantic import BaseModel
 from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -28,11 +28,12 @@ class SuperUser(BaseModel):
     is_active: bool
     is_superuser: bool
     is_verified: bool
+    registered_at: datetime = datetime.now(timezone.utc)
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(".env.tempalte.", ".env"),
+        env_file=(".env.template.", ".env"),
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="FASTAPI__",
