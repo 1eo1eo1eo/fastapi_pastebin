@@ -1,11 +1,19 @@
-from typing import Annotated
+from typing import Annotated, TYPE_CHECKING
 
 from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import Depends, status
 
-from auth.dependencies.models import User
+from core.models import db_helper
+from .models import Message
+from .schemas import MessageCreate, MessageResponse
+from .dependencies import message_by_id, message_by_sid
+from .crud import create_message
 from auth.dependencies.router_helper import current_user, current_superuser
+from auth.dependencies.models import User
 from auth.dependencies.schemas import UserRead
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
 
 
 router = APIRouter(
@@ -14,27 +22,51 @@ router = APIRouter(
 )
 
 
-@router.get("")
-def get_user_messages(
-    user: Annotated[
-        User,
-        Depends(current_user),
+@router.get("/{message_id}", response_model=MessageResponse)
+async def get_user_message(
+    message: Annotated[
+        Message,
+        Depends(message_by_id),
     ],
-):
-    return {
-        "messages": ["m1", "m2", "m3"],
-        "user": UserRead.model_validate(user),
-    }
-
-
-@router.get("/secrets")
-def get_superuser_messages(
     user: Annotated[
         User,
         Depends(current_superuser),
     ],
 ):
-    return {
-        "messages": ["secret-m1", "secret-m2", "secret-m3"],
-        "user": UserRead.model_validate(user),
-    }
+    UserRead.model_validate(user)
+    return message
+
+
+@router.get("/{message_sid}", response_model=MessageResponse)
+async def get_user_message_by_sid(
+    message: Annotated[
+        Message,
+        Depends(message_by_sid),
+    ],
+    user: Annotated[
+        User,
+        Depends(current_user),
+    ],
+):
+    UserRead.model_validate(user)
+    return message
+
+
+@router.post("", response_model=MessageResponse, status_code=status.HTTP_201_CREATED)
+async def create_user_message(
+    message_create: MessageCreate,
+    session: Annotated[
+        "AsyncSession",
+        Depends(db_helper.session_getter),
+    ],
+    user: Annotated[
+        User,
+        Depends(current_user),
+    ],
+):
+    message = await create_message(
+        session=session,
+        message_create=message_create,
+    )
+    UserRead.model_validate(user)
+    return message
