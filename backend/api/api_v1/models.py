@@ -1,5 +1,6 @@
+import secrets
 from datetime import datetime, timezone
-from sqlalchemy import ForeignKey, TIMESTAMP, String
+from sqlalchemy import String, DateTime
 from sqlalchemy.orm import (
     Mapped,
     mapped_column,
@@ -16,8 +17,8 @@ class Message(IdIntPkMixin, Base):
     )
     content: Mapped[str] = mapped_column(nullable=False)
     language: Mapped[str] = mapped_column(nullable=False)
-    created_at: Mapped[TIMESTAMP] = mapped_column(
-        type_=TIMESTAMP,
+    created_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True),
         default=datetime.now(timezone.utc),
     )
-    sid: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    sid: Mapped[str] = mapped_column(nullable=False, default=secrets.token_hex())
