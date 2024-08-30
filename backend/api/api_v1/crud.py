@@ -33,3 +33,11 @@ async def create_message(
     session.add(message)
     await session.commit()
     return message
+
+
+async def delete_message(
+    session: "AsyncSession",
+    message: Message,
+) -> None:
+    await session.delete(message)
+    await session.commit()
