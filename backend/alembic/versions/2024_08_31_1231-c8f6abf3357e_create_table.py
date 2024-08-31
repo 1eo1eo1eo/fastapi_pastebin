@@ -1,8 +1,8 @@
-"""users table update registered_at and messages table update created_at
+"""create table
 
-Revision ID: ca3914bd33e3
-Revises: 9843d8876652
-Create Date: 2024-08-30 13:16:06.936779
+Revision ID: c8f6abf3357e
+Revises: 
+Create Date: 2024-08-31 12:31:30.477652
 
 """
 
@@ -14,22 +14,33 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "ca3914bd33e3"
-down_revision: Union[str, None] = "9843d8876652"
+revision: str = "c8f6abf3357e"
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
     op.create_table(
+        "messages",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("title", sa.String(length=50), nullable=False),
+        sa.Column("content", sa.String(), nullable=False),
+        sa.Column("language", sa.String(), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("sid", sa.String(), nullable=False),
+        sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("sid"),
+    )
+    op.create_table(
         "users",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("email", sa.String(length=320), nullable=False),
         sa.Column("hashed_password", sa.String(length=1024), nullable=False),
+        sa.Column("registered_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=False),
         sa.Column("is_superuser", sa.Boolean(), nullable=False),
         sa.Column("is_verified", sa.Boolean(), nullable=False),
-        sa.Column("registered_at", sa.DateTime(timezone=True), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_users_email"), "users", ["email"], unique=True)
@@ -51,25 +62,11 @@ def upgrade() -> None:
         ["created_at"],
         unique=False,
     )
-    op.create_table(
-        "messages",
-        sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("title", sa.String(length=50), nullable=False),
-        sa.Column("content", sa.String(), nullable=False),
-        sa.Column("language", sa.String(), nullable=False),
-        sa.Column("sid", sa.Integer(), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["sid"],
-            ["users.id"],
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
 
 
 def downgrade() -> None:
-    op.drop_table("messages")
     op.drop_index(op.f("ix_access_tokens_created_at"), table_name="access_tokens")
     op.drop_table("access_tokens")
     op.drop_index(op.f("ix_users_email"), table_name="users")
     op.drop_table("users")
+    op.drop_table("messages")
