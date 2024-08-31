@@ -19,6 +19,10 @@ class Message(IdIntPkMixin, Base):
     language: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(timezone.utc),
+        default=datetime.now,
     )
-    sid: Mapped[str] = mapped_column(nullable=False, default=secrets.token_hex())
+    sid: Mapped[str] = mapped_column(
+        nullable=False,
+        default=secrets.token_hex,
+        unique=True,
+    )

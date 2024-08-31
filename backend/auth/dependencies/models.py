@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class User(Base, IdIntPkMixin, SQLAlchemyBaseUserTable[int]):
     registered_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),
-        default=datetime.now(timezone.utc),
+        default=datetime.now,
     )
 
     @classmethod
