@@ -9,7 +9,7 @@ from fastapi_users_db_sqlalchemy.access_token import (
 )
 from sqlalchemy import DateTime, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import datetime, timezone
+from datetime import datetime
 
 from core.models import Base
 from core.models.mixins.id_int_pk import IdIntPkMixin
