@@ -12,7 +12,7 @@ services:
     networks:
       - app-network
     volumes:
-      - app:/Users/levlazutin/postgres
+      - app:/data/postgres
 
 networks:
   app-network:
