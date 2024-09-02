@@ -31,6 +31,18 @@ class SuperUser(BaseModel):
     registered_at: datetime = datetime.now(timezone.utc)
 
 
+class SMTP(BaseModel):
+    user: str
+    password: str
+    host: str
+    port: int
+
+
+class Redis(BaseModel):
+    host: str
+    port: int
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.template.", ".env"),
@@ -42,6 +54,8 @@ class Settings(BaseSettings):
     db: DataBaseConfig
     access_token: AccessToken
     superuser: SuperUser
+    smtp: SMTP
+    redis: Redis
 
 
 settings = Settings()  # type: ignore
