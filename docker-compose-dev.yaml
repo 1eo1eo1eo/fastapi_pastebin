@@ -9,15 +9,71 @@ services:
     restart: always
     ports:
       - "5432:5432"
+    volumes:
+      - fastapi_pastebin:/data/postgres
     networks:
       - app-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
     volumes:
-      - app:/Users/levlazutin/postgres
+      - fastapi_pastebin:/data/redis
+    networks:
+      - app-network
+
+  app:
+    container_name: app
+    env_file:
+      - backend/.env
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    depends_on:
+      - db
+      - redis
+    command: ["/app/docker/app.sh"]
+    ports:
+      - 8001:8000
+    networks:
+      - app-network
+
+  celery:
+    container_name: celery
+    env_file:
+      - backend/.env
+    build:
+      context: .
+    command: ["/app/docker/celery.sh", "celery"]
+    depends_on:
+      - redis
+    volumes:
+      - fastapi_pastebin:/data/celery
+    networks:
+      - app-network
+
+  flower:
+    container_name: flower
+    env_file:
+      - backend/.env
+    build:
+      context: .
+    command: ["/app/docker/celery.sh", "flower"]
+    depends_on:
+      - redis
+      - celery
+    ports:
+      - 5556:5555
+    volumes:
+      - fastapi_pastebin:/data/flower
+    networks:
+      - app-network
 
 networks:
   app-network:
     driver: bridge
 
 volumes:
-  app:
-    external: false
+  fastapi_pastebin:
