@@ -3,6 +3,8 @@ from typing import Annotated, TYPE_CHECKING
 from fastapi import APIRouter
 from fastapi import Depends, status
 
+from fastapi_cache.decorator import cache
+
 from core.models import db_helper
 from .models import Message
 from .schemas import MessageCreate, MessageResponse
@@ -24,6 +26,7 @@ router = APIRouter(
 
 
 @router.get("/message_by_id/{message_id}", response_model=MessageResponse)
+@cache(expire=60)
 async def get_user_message(
     user: Annotated[
         User,
@@ -39,6 +42,7 @@ async def get_user_message(
 
 
 @router.get("/message_by_sid/{message_sid}")
+@cache(expire=60)
 async def get_user_message_by_sid(
     user: Annotated[
         User,
