@@ -16,6 +16,9 @@ alembic = "^1.13.2"
 asyncpg = "^0.29.0"
 gunicorn = "^23.0.0"
 fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.2"}
+celery = "^5.4.0"
+flower = "^2.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
