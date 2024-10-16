@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: postgres
+    container_name: postgresPasteBin
     image: postgres:15
     environment:
       - POSTGRES_USER=postgres
@@ -15,7 +15,7 @@ services:
       - app-network
 
   redis:
-    container_name: redis
+    container_name: redisPasteBin
     image: redis:latest
     ports:
       - "6379:6379"
@@ -25,7 +25,7 @@ services:
       - app-network
 
   app:
-    container_name: app
+    container_name: appPasteBin
     env_file:
       - backend/.env
     build:
@@ -41,7 +41,7 @@ services:
       - app-network
 
   celery:
-    container_name: celery
+    container_name: celeryPasteBin
     env_file:
       - backend/.env
     build:
@@ -55,7 +55,7 @@ services:
       - app-network
 
   flower:
-    container_name: flower
+    container_name: flowerPasteBin
     env_file:
       - backend/.env
     build:
