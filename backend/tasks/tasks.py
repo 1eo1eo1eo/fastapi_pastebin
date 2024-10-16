@@ -18,13 +18,15 @@ def create_email(subject: str, content: str, email_address: str) -> EmailMessage
 
 
 def get_email_template(token: str, email_type: str):
+    verify_url: str = f"127.0.0.1/auth/verify?token={token}"
     if email_type == "verification":
         return (
             "<div>"
-            f'<h1 style="color: black;">Здравствуйте, а вот и ваш код: {token}. 😊</h1>'
+            f'<h1 style="color: black;">Привет, вот твой коде: {token} 😊</h1>'
             "</div>"
         )
     elif email_type == "password_reset":
+        reset_url: str = f"127.0.0.1/auth/reset-password?token={token}"
         return (
             "<div>"
             f'<h1 style="color: black;">Здравствуйте, а вот и ваш код для восстановления пароля: {token}. 😊</h1>'
