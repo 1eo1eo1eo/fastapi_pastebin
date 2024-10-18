@@ -1,6 +1,6 @@
+import logging
 import uvicorn
-from fastapi import FastAPI, Request
-from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from fastapi_cache import FastAPICache
@@ -18,12 +18,17 @@ from api import router as messages_router
 
 
 @asynccontextmanager
-async def lifespan(main_app: FastAPI):
+async def lifespan(
+    main_app: FastAPI,
+):
     # startup
+    settings.configure_logging(level=logging.WARNING)
+
     redis = aioredis.from_url(f"redis://{settings.redis.host}:{settings.redis.port}")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
     await create_superuser()
+
     yield
     # shutdown
     await db_helper.dispose()
