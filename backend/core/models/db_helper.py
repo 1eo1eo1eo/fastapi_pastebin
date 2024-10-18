@@ -5,11 +5,11 @@ from core.config import settings
 
 class DataBaseHelper:
     def __init__(
-            self,
-            url: str,
-            echo: bool = False,
-            pool_size: int = 5,
-            max_overflow: int = 10,
+        self,
+        url: str,
+        echo: bool = False,
+        pool_size: int = 5,
+        max_overflow: int = 10,
     ):
         self.engine: AsyncEngine = create_async_engine(
             url=url,
@@ -31,6 +31,7 @@ class DataBaseHelper:
     async def session_getter(self):
         async with self.session_factory() as session:
             yield session
+
 
 db_helper = DataBaseHelper(
     url=str(settings.db.url),

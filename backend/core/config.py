@@ -1,7 +1,11 @@
+import logging
 from datetime import datetime, timezone
 from pydantic import BaseModel
 from pydantic import PostgresDsn
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+)
 
 
 class RunConfig(BaseModel):
@@ -45,6 +49,7 @@ class Redis(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
+        arbitrary_types_allowed=True,
         env_file=(".env.template.", ".env"),
         case_sensitive=False,
         env_nested_delimiter="__",
@@ -56,6 +61,14 @@ class Settings(BaseSettings):
     superuser: SuperUser
     smtp: SMTP
     redis: Redis
+
+    @staticmethod
+    def configure_logging(level: int = logging.INFO):
+        logging.basicConfig(
+            level=level,
+            datefmt="%Y-%m-%d %H:%M:%S",
+            format="[%(asctime)s.%(msecs)03d] %(funcName)20s %(module)s:%(levelname)-8s - %(message)s",
+        )
 
 
 settings = Settings()  # type: ignore
