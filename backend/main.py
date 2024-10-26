@@ -16,13 +16,14 @@ from auth.actions.create_superuser import create_superuser
 
 from api import router as messages_router
 
+logging.basicConfig(format=settings.logging.log_format)
+
 
 @asynccontextmanager
 async def lifespan(
     main_app: FastAPI,
 ):
     # startup
-    settings.configure_logging(level=logging.WARNING)
 
     redis = aioredis.from_url(f"redis://{settings.redis.host}:{settings.redis.port}")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
